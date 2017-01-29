@@ -73,7 +73,7 @@ def main():
                 conn.commit()
                 print(message.sid)
 
-                with open('log/sms_log.txt', 'a') as f:
+                with open('/var/www/html/qwikcut-sms-api/log/sms_log.txt', 'a') as f:
                     f.write('{0} - QC+ Twilio API sent shooter message to {1}:{2} on {3}\n'.format(message.sid,
                                                                                                    contact_name,
                                                                                                    contact_number,
