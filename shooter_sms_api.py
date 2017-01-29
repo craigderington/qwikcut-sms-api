@@ -74,10 +74,10 @@ def main():
                 print(message.sid)
 
                 with open('log/sms_log.txt', 'a') as f:
-                    f.write('{0} - QC+ Twilio API sent shooter message to {1}:{2} on {3}'.format(message.sid,
-                                                                                                 contact_name,
-                                                                                                 contact_number,
-                                                                                                 alert_date))
+                    f.write('{0} - QC+ Twilio API sent shooter message to {1}:{2} on {3}\n'.format(message.sid,
+                                                                                                   contact_name,
+                                                                                                   contact_number,
+                                                                                                   alert_date))
 
             except TwilioRestException as e:
                 print(e)
