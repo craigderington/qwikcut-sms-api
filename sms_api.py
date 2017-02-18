@@ -74,13 +74,27 @@ def main():
                 print(message.sid)
 
                 with open('/var/www/html/qwikcut-sms-api/log/sms_log.txt', 'a') as f:
-                    f.write('{0} - QC+ Twilio API sent message to {1}:{2} on {3}'.format(message.sid,
+                    f.write('{0} - QC+ Twilio API sent message to {1}:{2} on {3}\n'.format(message.sid,
                                                                                          contact_name,
                                                                                          contact_number,
                                                                                          alert_date))
 
             except TwilioRestException as e:
+                # handle the exception in the database so we can move on
+                params = alert_id
+                conn.query("update alerts set sid = -1, alertqueued = 0, alertsent = 1"
+                           "where alertid = ? ", params)
+
+                conn.commit()
                 print(e)
+
+                with open('/var/www/html/qwikcut-sms-api/log/sms_log.txt', 'a') as f:
+                    f.write('{0} ** QC+ Twilio API could not send shooter message to {1}:{2} on {3}\n'.format(
+                        e,
+                        contact_name,
+                        contact_number,
+                        alert_date)
+                    )
 
     except ServerError as e:
         error = str(e)

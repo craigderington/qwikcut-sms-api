@@ -85,6 +85,7 @@ def main():
                 conn.query("update shooteralerts set sid = -1, alertqueued = 0, alertsent = 1"
                            "where shooteralertid = ? ", params)
 
+                conn.commit()
                 print(e)
 
                 with open('/var/www/html/qwikcut-sms-api/log/sms_log.txt', 'a') as f:
