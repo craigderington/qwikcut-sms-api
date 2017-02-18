@@ -80,7 +80,20 @@ def main():
                                                                                                    alert_date))
 
             except TwilioRestException as e:
+                # handle the exception so we can move on
+                params = alert_id
+                conn.query("update shooteralerts set sid = -1, alertqueued = 0, alertsent = 1"
+                           "where shooteralertid = ? ", params)
+
                 print(e)
+
+                with open('/var/www/html/qwikcut-sms-api/log/sms_log.txt', 'a') as f:
+                    f.write('{0} ** QC+ Twilio API could not send shooter message to {1}:{2} on {3}\n'.format(
+                        e,
+                        contact_name,
+                        contact_number,
+                        alert_date)
+                    )
 
     except ServerError as e:
         error = str(e)
